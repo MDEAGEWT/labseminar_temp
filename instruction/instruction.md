@@ -5,7 +5,11 @@
 # INSTRUCTION
 - 사용자가 직접 작성한 contents.md를 기반으로 작성한다.
   - contents.md에는 장절로 나누어져있고, 문단 단위로 압축하여 한 문장 정도로 작성한다.
-- contents.md를 작성하였으면 클로드에 "컨텐츠 제작"를 지시하면 클로드는 contents.md를 기반으로 slide.md와 review.md를 작성한다.
+- contents.md를 작성하였으면 클로드에 "컨텐츠 제작"를 지시한다. 클로드는 다음을 한 번에 모두 수행한다.
+  - contents.md를 기반으로 slide.md와 review.md를 작성한다.
+  - slide.md를 design/mydesign.md 규격의 덱 HTML로 만들어 output/에 넣는다.
+  - build.sh를 실행하여 PDF까지 굽는다. 사람이 build.sh를 직접 실행하지 않는다.
+  - 마지막에 만들어진 파일 목록과 PDF 쪽수를 사람에게 알린다.
 - contents.md를 기반으로 클로드는 발표자료 내용을 slide.md로 작성한다.
   - 발표자료의 디자인은 design/mydesign.md를 기반으로 작성된다.
 - 발표 내용에서 부족한 부분은 review.md 에 작성한다.
@@ -17,7 +21,7 @@
 - 발표자료의 디자인은 design/mydesign.md를 사용한다.
 - 발표자료 내용은 slide.md에 마크다운 형태로 작성한다.
   - 수식, 표, 및 그림/동영상은 동일하게 포함시킨다.
-- 발표자료는 html로 작성하고 pdf로도 생성한다.
+- 발표자료는 html로 작성하고 pdf로도 생성한다. PDF는 build.sh 실행으로 굽는다.
 - instruction.md와 contents.md 파일을 항상 확인한다.
   - CLAUDE.md, intruction.md 및 contents.md는 CLAUDE가 직접 수정할 수 없다.
 - 변경 사항이 있는지 확인하고 변경 사항이 발생하면 업데이트 한다.
