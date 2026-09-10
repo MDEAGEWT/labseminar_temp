@@ -197,7 +197,18 @@ slug = ''.join(w[:1].upper() + w[1:] for w in words if w)
 
 `imgs/`, CSS, JS 는 이름을 바꾸지 않는다. 덱 HTML 이 그 이름으로 참조하기 때문이다.
 
-### 4. PDF 다시 굽기 - 보통은 필요 없다
+### 4. 손으로 고치기 - 선택
+
+굽힌 덱을 파워포인트처럼 고치려면 서브모듈 에디터를 쓴다.
+
+```bash
+git submodule update --init      # 처음 한 번
+python3 editor/editor.py output  # output/ 의 덱을 모두 연다
+```
+
+고친 뒤에는 `./build.sh` 로 PDF 를 다시 굽는다.
+
+### 5. PDF 다시 굽기 - 보통은 필요 없다
 
 3 단계에서 클로드가 이미 돌린다. 덱 HTML 이나 `design/` 을 손으로 고친 뒤
 다시 굽고 싶을 때만 사람이 직접 실행한다.
@@ -210,7 +221,7 @@ slug = ''.join(w[:1].upper() + w[1:] for w in words if w)
 `design/` 의 `deck.css`, `layout.css`, `present.js`, 로고를 `output/` 으로 내려보내고
 PDF 를 굽는다. 덱이 참조하지 않는 `output/imgs/` 파일도 알려 준다.
 
-### 5. 발표
+### 6. 발표
 
 `output/<타이틀>_<학생이름>.html` 을 브라우저로 열고 `F` 키를 누른다.
 
@@ -242,6 +253,7 @@ design/                 디자인 원본. 여기가 CSS 와 JS 의 유일한 원
   present.js            전체 화면 발표, 동영상
   template.html         빈 덱 뼈대
   assets/lab_logo.png   연구실 로고
+editor/                 덱 HTML 을 파워포인트처럼 고치는 로컬 에디터 (서브모듈)
 create.sh               작업 폴더 준비
 build.sh                디자인 파일 내려보내기 + PDF 굽기
 ```
