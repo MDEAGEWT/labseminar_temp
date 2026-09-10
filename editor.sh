@@ -2,7 +2,8 @@
 # 덱 HTML 을 브라우저에서 고친다.
 #   ./editor.sh                 output/ 의 덱을 모두 연다
 #   ./editor.sh output/x.html   덱 하나만 연다
-#   ./editor.sh --port 8899     포트를 바꾼다. --no-open 은 브라우저를 띄우지 않는다
+#   ./editor.sh --port 8899     포트를 지정한다. 기본은 8770 부터 비어 있는 포트
+#   ./editor.sh --no-open       브라우저를 띄우지 않는다
 #
 # 편집기 본체는 editor/ 서브모듈이다. 없으면 여기서 내려받는다.
 # 고친 결과는 덱 HTML 에 바로 저장된다. PDF 는 ./build.sh 로 다시 굽는다.
@@ -28,6 +29,28 @@ done
 if [ "$target_given" -eq 0 ]; then
   [ -d output ] || { echo "output/ 이 없다. ./create.sh 를 먼저 실행한다" >&2; exit 1; }
   set -- output "$@"
+fi
+
+# --port 를 주지 않았으면 비어 있는 포트를 고른다. 편집기를 둘 이상 띄워도 충돌하지 않는다
+port_given=0
+for a in "$@"; do
+  case "$a" in --port|--port=*) port_given=1 ;; esac
+done
+if [ "$port_given" -eq 0 ]; then
+  port=$(python3 -c "
+import socket
+for p in range(8770, 8790):
+    s = socket.socket()
+    free = s.connect_ex(('127.0.0.1', p)) != 0
+    s.close()
+    if free:
+        print(p)
+        break
+else:
+    print(0)
+")
+  [ "$port" != "0" ] || { echo "8770-8789 에 빈 포트가 없다. --port 로 지정한다" >&2; exit 1; }
+  set -- "$@" --port "$port"
 fi
 
 exec python3 editor/editor.py "$@"
