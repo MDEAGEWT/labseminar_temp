@@ -189,19 +189,19 @@ $$
 
 생성 결과는 다음과 같다.
 
-![표지](docs/imgs/example-01.png)
+![표지](instruction/example/imgs/example-01.png)
 
 | | |
 |---|---|
-| ![목차](docs/imgs/example-02.png) | ![파트 구분](docs/imgs/example-03.png) |
+| ![목차](instruction/example/imgs/example-02.png) | ![파트 구분](instruction/example/imgs/example-03.png) |
 | 목차 | 파트 구분 |
-| ![그림 슬라이드](docs/imgs/example-04.png) | ![표 슬라이드](docs/imgs/example-05.png) |
+| ![그림 슬라이드](instruction/example/imgs/example-04.png) | ![표 슬라이드](instruction/example/imgs/example-05.png) |
 | 글과 그림 | 글과 표 |
-| ![수식 슬라이드](docs/imgs/example-07.png) | ![구조도 슬라이드](docs/imgs/example-08.png) |
+| ![수식 슬라이드](instruction/example/imgs/example-07.png) | ![구조도 슬라이드](instruction/example/imgs/example-08.png) |
 | 수식. 번호는 오른쪽 끝에 정렬한다 | 강조 카드와 구조도 |
-| ![실험 결과 슬라이드](docs/imgs/example-10.png) | ![동영상 슬라이드](docs/imgs/example-11.png) |
+| ![실험 결과 슬라이드](instruction/example/imgs/example-10.png) | ![동영상 슬라이드](instruction/example/imgs/example-11.png) |
 | 표와 그래프 | 동영상. PDF 에는 poster 가 수록된다 |
-| ![결론 슬라이드](docs/imgs/example-13.png) | |
+| ![결론 슬라이드](instruction/example/imgs/example-13.png) | |
 | 결론과 향후 연구 | |
 
 슬라이드 종류와 배치 규칙의 전문은 [design/README.md](design/README.md) 와
