@@ -14,10 +14,16 @@ if [ ! -f editor/editor.py ]; then
   git submodule update --init editor
 fi
 
-# 인자에 경로가 없으면 output/ 을 연다
+# 인자에 경로가 없으면 output/ 을 연다. --port 뒤의 값은 경로가 아니다
 target_given=0
+skip_next=0
 for a in "$@"; do
-  case "$a" in -*) ;; *) target_given=1 ;; esac
+  if [ "$skip_next" -eq 1 ]; then skip_next=0; continue; fi
+  case "$a" in
+    --port) skip_next=1 ;;
+    -*) ;;
+    *) target_given=1 ;;
+  esac
 done
 if [ "$target_given" -eq 0 ]; then
   [ -d output ] || { echo "output/ 이 없다. ./create.sh 를 먼저 실행한다" >&2; exit 1; }
