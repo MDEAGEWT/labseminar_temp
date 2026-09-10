@@ -1,0 +1,9 @@
+# 발표마다 새로 만드는 작업 파일. create.sh 와 "컨텐츠 제작" 이 생성한다.
+# 견본은 instruction/example/ 에 있다.
+/contents.md
+/slide.md
+/review.md
+
+# 원본 미디어와 배포물. 덱에는 imgs/ 의 변환본만 들어간다
+/materials/
+/output/

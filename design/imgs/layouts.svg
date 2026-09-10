@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1020 420" width="1020" height="420">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<g font-family="system-ui, sans-serif">
+<rect x="16" y="52" width="308" height="126" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+<rect x="24.0" y="60.0" width="292.0" height="49.5" rx="5" fill="#dbeafe" stroke="#3b82f6"/>
+<text x="170.0" y="84.8" font-size="14" fill="#334155" text-anchor="middle" dominant-baseline="middle" font-family="'DejaVu Sans Mono','Noto Sans Mono',monospace">text</text>
+<rect x="24.0" y="115.0" width="292.0" height="55.0" rx="5" fill="#f1f5f9" stroke="#94a3b8"/>
+<text x="170.0" y="142.5" font-size="14" fill="#334155" text-anchor="middle" dominant-baseline="middle" font-family="'DejaVu Sans Mono','Noto Sans Mono',monospace">media</text>
+<text x="16" y="28" font-size="19" font-weight="700" fill="#0f172a" font-family="'DejaVu Sans Mono','Noto Sans Mono',monospace">bottom</text>
+<text x="16" y="44" font-size="14" fill="#475569">글 위, 그림 아래</text>
+<rect x="356" y="52" width="308" height="126" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+<rect x="364.0" y="60.0" width="134.3" height="110.0" rx="5" fill="#dbeafe" stroke="#3b82f6"/>
+<text x="431.2" y="115.0" font-size="14" fill="#334155" text-anchor="middle" dominant-baseline="middle" font-family="'DejaVu Sans Mono','Noto Sans Mono',monospace">text</text>
+<rect x="515.8" y="60.0" width="140.2" height="110.0" rx="5" fill="#f1f5f9" stroke="#94a3b8"/>
+<text x="585.9" y="115.0" font-size="14" fill="#334155" text-anchor="middle" dominant-baseline="middle" font-family="'DejaVu Sans Mono','Noto Sans Mono',monospace">media</text>
+<text x="356" y="28" font-size="19" font-weight="700" fill="#0f172a" font-family="'DejaVu Sans Mono','Noto Sans Mono',monospace">right</text>
+<text x="356" y="44" font-size="14" fill="#475569">글 왼쪽, 그림 오른쪽</text>
+<rect x="696" y="52" width="308" height="126" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+<rect x="704.0" y="60.0" width="140.2" height="110.0" rx="5" fill="#f1f5f9" stroke="#94a3b8"/>
+<text x="774.1" y="115.0" font-size="14" fill="#334155" text-anchor="middle" dominant-baseline="middle" font-family="'DejaVu Sans Mono','Noto Sans Mono',monospace">media</text>
+<rect x="861.7" y="60.0" width="134.3" height="110.0" rx="5" fill="#dbeafe" stroke="#3b82f6"/>
+<text x="928.8" y="115.0" font-size="14" fill="#334155" text-anchor="middle" dominant-baseline="middle" font-family="'DejaVu Sans Mono','Noto Sans Mono',monospace">text</text>
+<text x="696" y="28" font-size="19" font-weight="700" fill="#0f172a" font-family="'DejaVu Sans Mono','Noto Sans Mono',monospace">left</text>
+<text x="696" y="44" font-size="14" fill="#475569">그림 왼쪽, 글 오른쪽</text>
+<rect x="16" y="262" width="308" height="126" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+<rect x="24.0" y="270.0" width="292.0" height="55.0" rx="5" fill="#f1f5f9" stroke="#94a3b8"/>
+<text x="170.0" y="297.5" font-size="14" fill="#334155" text-anchor="middle" dominant-baseline="middle" font-family="'DejaVu Sans Mono','Noto Sans Mono',monospace">media</text>
+<rect x="24.0" y="330.5" width="292.0" height="49.5" rx="5" fill="#dbeafe" stroke="#3b82f6"/>
+<text x="170.0" y="355.2" font-size="14" fill="#334155" text-anchor="middle" dominant-baseline="middle" font-family="'DejaVu Sans Mono','Noto Sans Mono',monospace">text</text>
+<text x="16" y="238" font-size="19" font-weight="700" fill="#0f172a" font-family="'DejaVu Sans Mono','Noto Sans Mono',monospace">top</text>
+<text x="16" y="254" font-size="14" fill="#475569">그림 위, 글 아래</text>
+<rect x="356" y="262" width="308" height="126" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+<rect x="364.0" y="270.0" width="134.3" height="38.5" rx="5" fill="#dbeafe" stroke="#3b82f6"/>
+<text x="431.2" y="289.2" font-size="14" fill="#334155" text-anchor="middle" dominant-baseline="middle" font-family="'DejaVu Sans Mono','Noto Sans Mono',monospace">text</text>
+<rect x="364.0" y="314.0" width="134.3" height="66.0" rx="5" fill="#f1f5f9" stroke="#94a3b8"/>
+<text x="431.2" y="347.0" font-size="14" fill="#334155" text-anchor="middle" dominant-baseline="middle" font-family="'DejaVu Sans Mono','Noto Sans Mono',monospace">media</text>
+<rect x="515.8" y="270.0" width="140.2" height="38.5" rx="5" fill="#dbeafe" stroke="#3b82f6"/>
+<text x="585.9" y="289.2" font-size="14" fill="#334155" text-anchor="middle" dominant-baseline="middle" font-family="'DejaVu Sans Mono','Noto Sans Mono',monospace">text</text>
+<rect x="515.8" y="314.0" width="140.2" height="66.0" rx="5" fill="#f1f5f9" stroke="#94a3b8"/>
+<text x="585.9" y="347.0" font-size="14" fill="#334155" text-anchor="middle" dominant-baseline="middle" font-family="'DejaVu Sans Mono','Noto Sans Mono',monospace">media</text>
+<text x="356" y="238" font-size="19" font-weight="700" fill="#0f172a" font-family="'DejaVu Sans Mono','Noto Sans Mono',monospace">quad</text>
+<text x="356" y="254" font-size="14" fill="#475569">2단. 각 단이 글 위 / 그림 아래</text>
+<rect x="696" y="262" width="308" height="126" rx="8" fill="#ffffff" stroke="#cbd5e1"/>
+<rect x="704.0" y="270.0" width="292.0" height="110.0" rx="5" fill="#dbeafe" stroke="#3b82f6"/>
+<text x="850.0" y="325.0" font-size="14" fill="#334155" text-anchor="middle" dominant-baseline="middle" font-family="'DejaVu Sans Mono','Noto Sans Mono',monospace">text</text>
+<text x="696" y="238" font-size="19" font-weight="700" fill="#0f172a" font-family="'DejaVu Sans Mono','Noto Sans Mono',monospace">text / media</text>
+<text x="696" y="254" font-size="14" fill="#475569">한쪽만</text>
+</g>
+</svg>
