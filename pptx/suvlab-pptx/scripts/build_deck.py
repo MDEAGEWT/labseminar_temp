@@ -283,6 +283,8 @@ def fill_body(tf, spec, as_textbox=False):
     color = BULLET_COLORS.get(spec.get('bullet_color') or 'sky')
     for k, (kind, text) in enumerate(paras):
         p = tf.paragraphs[0] if k == 0 else tf.add_paragraph()
+        if as_textbox:
+            p.line_spacing = 1.15              # the Body placeholder's lnSpc; a bare text box defaults to 1.0
         if kind == 'lead':
             write_runs(p, text, size_pt=23, color=MUTED if as_textbox else None)
             no_bullet(p)
@@ -783,8 +785,13 @@ def build(spec_path, out_path):
 
     # mydesign.md: cover, contents, summary and part slides carry no number; the
     # first content slide is 01 and the total counts numbered slides only.
+    # A summary slide may opt back in with an explicit `numbered: true`.
     def numbered(s):
-        return s.get('layout', 'bottom') not in SPECIAL and not s.get('summary') and s.get('numbered', True)
+        if s.get('layout', 'bottom') in SPECIAL:
+            return False
+        if s.get('summary'):
+            return s.get('numbered') is True
+        return s.get('numbered', True)
     total = sum(1 for s in slides if numbered(s))
     n, section = 0, 'Overview'
     for num, s in enumerate(slides, 1):

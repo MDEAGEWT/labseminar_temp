@@ -104,7 +104,8 @@ with split 42; `two-figures`/`three-figures` → bottom with 2/3 cols.
 
 **Numbering** (mydesign.md §5): cover, contents, part and `summary` slides carry no number.
 The first content slide is `01`, the footer reads `01 / NN` where NN counts numbered slides
-only, and the progress bar is number / NN.
+only, and the progress bar is number / NN. A summary slide that should still show its number
+(e.g. `16 / 16`) takes `numbered: true`.
 
 ### Text
 
