@@ -192,6 +192,19 @@ $$
 
 ---
 
+## PPTX 양식
+
+PowerPoint 로 발표하는 경우를 위해 같은 디자인의 PPTX 양식과 생성 스킬을 둔다.
+
+| 경로 | 내용 |
+|---|---|
+| `template/` | 내용 없는 빈 덱 한 벌. `template.html`, `template.pdf`, `template.pptx` |
+| `pptx/suvlab-pptx/` | 슬라이드 마스터 `assets/template.pptx` 와 `slides.yaml` 로 덱을 생성하는 클로드 코드 스킬 |
+
+사용법은 [pptx/README.md](pptx/README.md) 에 있다.
+
+---
+
 ## EXAMPLE
 
 견본 한 벌이 `instruction/example/` 에 있다. `contents.md`, 그것으로 생성한 `slide.md`

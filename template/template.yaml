@@ -1,0 +1,58 @@
+# template.html as a PPTX: the same six slides, built with the suvlab-pptx skill.
+#   py ../pptx/suvlab-pptx/scripts/build_deck.py template.yaml template.pptx
+slides:
+  - layout: cover
+    course: Lab Seminar
+    kicker: Part Name In English
+    title: Deck Title
+    presenter: 소속 발표자
+
+  - layout: contents
+    section: 파트 이름
+    items:
+      - "**Section One** — 한 줄 설명"
+      - "**Section Two** — 한 줄 설명"
+
+  - layout: part
+    title: Section One
+
+  - layout: right
+    split: 50
+    kicker: Section One
+    section: 파트 이름
+    title: Slide Title In English
+    bullets:
+      - "**말머리** — 설명"
+      - "**말머리** — 설명"
+    blocks:
+      - card: 꼭 기억해야 할 한 문장이 있을 때만 쓴다.
+        title: 카드 제목
+        tone: soft
+    figure:
+      table:
+        header: [Header, Header]
+        widths: [40, 60]
+        rows:
+          - [항목, 내용]
+          - [항목, 내용]
+
+  - layout: bottom
+    kicker: Section One
+    section: 파트 이름
+    title: Equation Slide
+    bullets:
+      - "**말머리** — 식이 무엇을 말하는지 한 줄"
+    figure:
+      eq: 'y = a x^2 + b x + c'
+      num: 1
+      defs: "`a, b, c` 계수 · `x` 입력 · `y` 출력"
+
+  - layout: right
+    split: 44
+    kicker: Section Two
+    section: 파트 이름
+    title: Figure and Video
+    bullets:
+      - "**그림** — `figure:` 에 이미지 경로를 넣는다"
+      - "**동영상** — `{video: ..., poster: ...}`. 무음 자동 재생이 기본이고 poster 를 반드시 지정한다"
+    figure: imgs/example.png

@@ -1,0 +1,372 @@
+/* 강의 슬라이드 공통 스타일 - mydesign.md 규격 구현.
+   새 덱은 이 파일을 복사해서 쓴다. 아트보드 1920x1080. */
+
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
+
+deck-stage {
+  --sky: #3b82f6;
+  --sky-deep: #1d4ed8;
+  --sky-soft: #dbeafe;
+  --leaf: #22c55e;
+  --leaf-soft: #dcfce7;
+  --leaf-deep: #16a34a;
+  --coral: #f87171;
+  --coral-soft: #fee2e2;
+  --sun: #fbbf24;
+  --berry-deep: #7c3aed;
+  --ink: #0f172a;
+  --ink-muted: #475569;
+  --ink-subtle: #94a3b8;
+  --bg: #ffffff;
+  --surface: #f8fafc;
+  --sunken: #f1f5f9;
+  --outline: #e2e8f0;
+
+  --font-title: "Nunito", "Noto Sans KR", system-ui, sans-serif;
+  --font-body: "Atkinson Hyperlegible", "Noto Sans KR", system-ui, sans-serif;
+  --font-code: "JetBrains Mono", "Noto Sans KR", ui-monospace, monospace;
+
+  --type-display: 124px;
+  --type-title: 76px;
+  --type-subtitle: 46px;
+  --type-body: 36px;
+  --type-small: 29px;
+  --type-code: 30px;
+  --type-kicker: 26px;
+
+  --pad-x: 112px;
+  --pad-top: 84px;
+  --pad-bottom: 72px;
+
+  --lab-logo: url("suvlab_logo.png");
+
+  counter-reset: page;
+}
+
+.slide {
+  position: relative;
+  display: flex; flex-direction: column;
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body);
+  padding: var(--pad-top) var(--pad-x) var(--pad-bottom);
+  text-wrap: pretty;
+  print-color-adjust: exact; -webkit-print-color-adjust: exact;
+}
+
+/* - head: 키커와 연구실 로고 - */
+.head {
+  display: flex; align-items: center; justify-content: space-between;
+  min-height: 44px; margin-bottom: 6px;
+}
+.head::after {
+  content: ""; position: absolute; right: var(--pad-x); top: var(--pad-top);
+  width: 220px; height: 112px; pointer-events: none;
+  background: var(--lab-logo) right center / auto 112px no-repeat;
+}
+.kicker {
+  font-family: var(--font-title); font-weight: 700;
+  font-size: var(--type-kicker); letter-spacing: 0.04em;
+  color: var(--sky); text-transform: uppercase;
+}
+.folio { display: none; }
+
+.title {
+  font-family: var(--font-title); font-weight: 800;
+  font-size: var(--type-title); line-height: 1.1; letter-spacing: -1px;
+  margin: 0; color: var(--ink);
+}
+.rule {
+  width: 120px; height: 8px; border-radius: 999px;
+  background: var(--sky); margin: 18px 0 26px;
+}
+
+/* 인쇄에서 본문이 제 칸을 넘겨도 푸터를 덮지 않도록 잘라낸다 */
+.body { flex: 1 1 auto; min-height: 0; overflow: hidden;
+        display: flex; flex-direction: column; }
+
+/* - foot: 섹션명, 진행 막대, 쪽번호 - */
+.foot {
+  display: flex; align-items: center; gap: 28px;
+  margin-top: 24px;
+  font-size: var(--type-kicker); color: var(--ink-subtle);
+}
+.foot-sec { font-family: var(--font-title); font-weight: 600; }
+.bar {
+  flex: 1 1 auto; height: 8px; border-radius: 999px;
+  background: var(--sunken); overflow: hidden;
+}
+.bar > i { display: block; height: 100%; background: var(--leaf); }
+.foot-num { font-family: var(--font-code); font-weight: 500; }
+
+/* - 표지 - */
+.cover {
+  background: var(--sky-soft);
+  justify-content: center; gap: 28px;
+}
+.cover::after {
+  content: ""; position: absolute; left: var(--pad-x); top: var(--pad-top);
+  width: 200px; height: 200px; pointer-events: none;
+  background: var(--lab-logo) left top / 200px auto no-repeat;
+}
+.cover .course {
+  font-family: var(--font-title); font-weight: 700;
+  font-size: var(--type-subtitle); letter-spacing: 0.02em;
+  color: var(--sky-deep);
+}
+.cover .kicker { font-size: var(--type-kicker); color: var(--sky); }
+.cover .display {
+  font-family: var(--font-title); font-weight: 800;
+  font-size: var(--type-display); line-height: 1.04; letter-spacing: -3px;
+  margin: 0; color: var(--ink);
+}
+.cover .sun-rule {
+  width: 260px; height: 12px; border-radius: 999px; background: var(--sun);
+}
+.cover .subtitle {
+  font-size: var(--type-subtitle); line-height: 1.35; margin: 0;
+  max-width: 40ch; color: var(--ink-muted);
+}
+.cover .presenter {
+  font-family: var(--font-title); font-weight: 600;
+  font-size: var(--type-body); margin: 0; color: var(--ink);
+}
+.cover .meta {
+  position: absolute; left: var(--pad-x); bottom: var(--pad-bottom);
+  display: flex; align-items: center; gap: 18px;
+  font-size: var(--type-kicker); color: var(--ink-muted);
+}
+
+/* - 파트 구분 - 장 이름 하나만 놓는다. 머리말, 푸터, 번호, 로고를 두지 않는다.
+     배경은 표지와 같은 sky-soft 를 써서 덱 전체의 배경색을 둘로 유지한다. */
+.part { background: var(--sky-soft); justify-content: center; }
+.part .part-name {
+  font-family: var(--font-title); font-weight: 800;
+  font-size: var(--type-display); line-height: 1.04; letter-spacing: -3px;
+  margin: 0; color: var(--ink);
+}
+
+/* - 본문 요소 - */
+.lead {
+  font-size: var(--type-subtitle); line-height: 1.35;
+  margin: 0 0 28px; color: var(--ink-muted); max-width: 46ch;
+}
+
+.ul + .cols, .ul + .cols-wide, .ul + .cols3, .ul + .tbl { margin-top: 26px; }
+
+/* 코드 블록. mydesign.md 11절. 강조는 span 클래스로 준다. */
+pre.code, pre.term {
+  margin: 0; padding: 22px 26px; border-radius: 14px;
+  background: var(--sunken); border: 1px solid var(--outline);
+  font-family: var(--font-code); font-variant-ligatures: none;
+  font-size: var(--type-code); line-height: 1.5; color: var(--ink);
+  white-space: pre; overflow: hidden;
+}
+pre.term { background: #0f172a; color: #e2e8f0; border-color: #0f172a; }
+
+/* 절반 열에 놓인 코드. 30px 로는 명령 한 줄이 잘린다. 9장의 하한인 24px 까지만
+   내리고, 줄이 더 길면 폰트가 아니라 명령을 줄인다. */
+.cols > pre.code, .cols > pre.term,
+.cols-wide > pre.code, .cols-wide > pre.term,
+.body-media[style*="--cols: 2"] > pre.code,
+.body-media[style*="--cols: 2"] > pre.term { font-size: 24px; }
+pre.code .k { color: var(--berry-deep); }
+pre.code .s { color: var(--leaf-deep); }
+pre.code .c { color: #64748b; }
+pre.code .fn { color: var(--sky-deep); }
+pre.code .no { color: #d97706; }
+pre.code .pr { color: var(--sky); }
+pre.code .err { color: #b91c1c; }
+
+.cols { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; flex: 1 1 auto; min-height: 0; }
+.cols-wide { display: grid; grid-template-columns: 1.25fr 1fr; gap: 44px; flex: 1 1 auto; min-height: 0; }
+.cols3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; flex: 1 1 auto; min-height: 0; }
+.cols > *, .cols-wide > *, .cols3 > * { min-width: 0; min-height: 0; }
+
+.grid4 { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.grid8 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 44px; }
+.grid4 > *, .grid8 > * { min-width: 0; }
+
+.card {
+  background: var(--surface); border: 1px solid var(--outline);
+  border-radius: 20px; padding: 28px 32px;
+  font-size: var(--type-small); line-height: 1.4; color: var(--ink-muted);
+}
+.body > .card { flex: 0 0 auto; padding: 20px 28px; margin-top: 20px; }
+.card h3 {
+  font-family: var(--font-title); font-weight: 700; font-size: var(--type-body);
+  margin: 0 0 14px; color: var(--sky-deep);
+}
+.card.soft { background: var(--sky-soft); border-color: #bfdbfe; }
+.card.soft h3 { color: var(--sky-deep); }
+.card.good { background: var(--leaf-soft); border-color: #bbf7d0; }
+.card.good h3 { color: var(--leaf-deep); }
+.card.warn { background: var(--coral-soft); border-color: #fecaca; }
+.card.warn h3 { color: #b91c1c; }
+
+.ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 14px;
+      flex: 0 0 auto;
+      font-size: var(--type-small); line-height: 1.45; color: var(--ink-muted); }
+.ul li { position: relative; padding-left: 34px; }
+.ul li::before {
+  content: ""; position: absolute; left: 4px; top: 0.5em;
+  width: 14px; height: 14px; border-radius: 999px; background: var(--sky);
+}
+/* 목차는 항목이 적어 아래쪽이 크게 빈다. 글자와 줄 간격을 키워 화면을 채운다 */
+.slide[data-label="목차"] .ul { gap: 40px; font-size: var(--type-body); }
+.slide[data-label="목차"] .ul li { padding-left: 44px; }
+.slide[data-label="목차"] .ul li::before { left: 6px; width: 18px; height: 18px; }
+
+.ul.leaf li::before { background: var(--leaf); }
+.ul.coral li::before { background: var(--coral); }
+.ul strong { font-weight: 700; color: var(--ink); }
+.ul code, .card code {
+  font-family: var(--font-code); font-variant-ligatures: none;
+  font-size: 0.86em; color: var(--sky-deep);
+  background: var(--sunken); border-radius: 8px; padding: 2px 8px;
+}
+
+.chip {
+  display: inline-flex; align-items: center;
+  font-family: var(--font-title); font-weight: 700; font-size: var(--type-kicker);
+  background: var(--sky-soft); color: var(--sky-deep);
+  border-radius: 999px; padding: 6px 18px;
+}
+
+/* 표 - 규격의 카드 문법과 같은 테두리 언어를 쓴다 */
+.tbl {
+  width: 100%; border-collapse: collapse;
+  font-size: var(--type-small); color: var(--ink-muted);
+}
+.tbl th {
+  text-align: left; font-family: var(--font-title); font-weight: 700;
+  font-size: var(--type-kicker); color: var(--sky-deep);
+  padding: 0 20px 14px; border-bottom: 3px solid var(--sky-soft);
+}
+.tbl td { padding: 16px 20px; border-bottom: 1px solid var(--outline); }
+.tbl tr:last-child td { border-bottom: none; }
+.tbl td:first-child, .tbl th:first-child { padding-left: 0; color: var(--ink); font-weight: 700; }
+.tbl td:last-child, .tbl th:last-child { padding-right: 0; }
+
+/* 불릿과 그림이 같이 있는 슬라이드 - 글은 왼쪽, 그림은 오른쪽 */
+.cols-fig {
+  flex: 1 1 auto; min-height: 0; display: grid;
+  grid-template-columns: 0.88fr 1.12fr; grid-template-rows: minmax(0, 1fr);
+  gap: 44px; align-items: start;
+}
+.cols-fig > * { min-width: 0; min-height: 0; max-height: 100%; }
+/* 한 열에 그림 두 장을 위아래로 쌓을 때 */
+.fig-stack {
+  min-height: 0; height: 100%; display: flex; flex-direction: column; gap: 14px;
+}
+.fig-stack > figure.fig { margin: 0; flex: 1 1 0; min-height: 0; min-width: 0; }
+/* 가로로 나란히 놓을 때 */
+.fig-stack.row { flex-direction: row; gap: 20px; }
+
+/* 2열에서는 그림 상자가 행 높이를 그대로 쓰고, 이미지는 폭과 높이 양쪽에
+   맞춰 축소된다. 잘리지 않게 하는 것이 목적. */
+.cols-fig figure.fig { height: 100%; }
+.cols-fig figure.fig .frame { height: 100%; }
+.cols-fig figure.fig img {
+  width: auto; height: auto; max-width: 100%; max-height: 100%;
+}
+.cols-fig .col-text { display: flex; flex-direction: column; justify-content: flex-start; }
+.cols-fig figure.fig { margin: 0; }
+
+/* 그림은 상자를 늘려 채우지 않고 상자가 그림에 맞춘다. 가로로 긴 도해가
+   세로로 긴 상자 안에서 작게 떠 있는 것을 막는다. */
+/* 인쇄에서는 .body 높이가 확정되지 않아 `max-height: 100%` 가 풀린다. 그러면
+   그림이 원본 비율대로 커져 푸터를 덮는다. 남은 공간을 flex 로 직접 배분하고
+   이미지는 object-fit 으로 그 안에 맞춘다 - 화면과 인쇄가 같아진다. */
+figure.fig {
+  margin: 22px 0 0; flex: 1 1 0; min-height: 0;
+  display: flex; flex-direction: column; gap: 10px; align-items: stretch;
+}
+figure.fig .frame {
+  min-height: 0; max-height: 100%; display: flex;
+  align-items: center; justify-content: center;
+  background: var(--bg); border: 1px solid var(--outline);
+  border-radius: 16px; padding: 8px;
+}
+figure.fig img {
+  display: block; width: 100%; height: 100%;
+  max-height: 100%; object-fit: contain;
+}
+/* 2열 안에서는 열 폭을 그대로 쓴다. */
+.cols figure.fig, .cols-wide figure.fig, .cols3 figure.fig { align-self: stretch; }
+figure.fig figcaption {
+  font-family: var(--font-code); font-size: 22px; color: var(--ink-subtle);
+}
+
+a { color: var(--sky); text-decoration: none; }
+
+
+/* ---------------------------------------------------------------
+   편집 모드 - 브라우저에서 슬라이드 글을 직접 고치는 용도.
+   화면에서만 보이고 PDF 출력에는 나오지 않는다.
+   --------------------------------------------------------------- */
+.edit-bar {
+  position: fixed; right: 16px; bottom: 16px; z-index: 9999;
+  display: flex; align-items: center; gap: 10px;
+  background: var(--ink); color: #fff;
+  font-family: var(--font-body); font-size: 15px;
+  border-radius: 999px; padding: 8px 10px 8px 16px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.28);
+}
+.edit-bar button {
+  font: inherit; font-weight: 700; cursor: pointer;
+  border: 0; border-radius: 999px; padding: 7px 16px;
+  background: var(--sky); color: #fff;
+}
+.edit-bar button:hover { background: var(--sky-bright, #60a5fa); }
+.edit-bar button[data-act="save"] { background: var(--leaf); }
+.edit-bar .hint { color: var(--ink-faint, #cbd5e1); font-size: 13px; }
+.edit-bar .status { font-size: 13px; min-width: 92px; }
+
+/* 그림 배치 전환 - 왼쪽 열에 그림을 두는 경우 */
+.cols-fig.flip { grid-template-columns: 1.12fr 0.88fr; }
+.cols-fig .tbl { font-size: 25px; }
+.cols-fig .tbl th { font-size: 20px; padding: 0 16px 12px; }
+.cols-fig .tbl td { padding: 14px 16px; }
+.cols-fig .tbl td:first-child, .cols-fig .tbl th:first-child { width: auto; }
+
+/* 슬라이드마다 뜨는 레이아웃/그림 도구 */
+.slide-tools {
+  position: absolute; top: 10px; right: 10px; z-index: 30;
+  display: none; gap: 6px; align-items: center;
+  background: rgba(15, 23, 42, 0.88); border-radius: 999px; padding: 6px 8px;
+}
+[data-editing] .slide-tools { display: flex; }
+.slide-tools select,
+.slide-tools button {
+  font-family: var(--font-body); font-size: 14px; font-weight: 700;
+  cursor: pointer; border: 0; border-radius: 999px; padding: 6px 12px;
+}
+.slide-tools select { background: #fff; color: #0f172a; }
+.slide-tools button { background: transparent; color: #fff; }
+.slide-tools button:hover { background: var(--sky); }
+.slide-tools button:disabled,
+.slide-tools select:disabled { opacity: 0.4; cursor: default; }
+
+/* 편집 중인 요소 표시 */
+[data-editing] [contenteditable] { outline: 1px dashed var(--sky-soft); outline-offset: 3px; }
+[data-editing] [contenteditable]:hover { outline-color: var(--sky); }
+[data-editing] [contenteditable]:focus {
+  outline: 2px solid var(--sky); outline-offset: 3px;
+  background: rgba(219, 234, 254, 0.45); border-radius: 4px;
+}
+
+@media print {
+  .edit-bar, .slide-tools { display: none !important; }
+  [data-editing] [contenteditable] { outline: 0 !important; background: none !important; }
+}
+
+/* 인쇄 전용 안전장치. Chrome 은 인쇄 분할 단계에서 .body 에 채움 높이를 주지
+   않아(600 대신 180) 그림이 원본 비율대로 커지고 푸터를 덮거나 잘린다.
+   화면 규칙은 그대로 두고, 확실히 아는 페이지 높이(1vh = 10.8px)를 기준으로
+   .body 에 인쇄에서만 definite 한 높이를 준다. 머리말과 제목, 푸터를 뺀
+   나머지가 대략 63vh 다. 그러면 figure 의 화면 규칙(object-fit: contain)이
+   인쇄에서도 그대로 동작한다. */
+@media print {
+  .body { flex: none; height: 63vh; }
+  figure.fig, .body[data-layout] > .body-media { max-height: 100%; }
+}

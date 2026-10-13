@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<title>Deck Title</title>
+<link rel="stylesheet" href="deck.css" />
+<link rel="stylesheet" href="layout.css" />
+<!-- 수식을 쓰지 않으면 아래 KaTeX 두 줄과 맨 아래 스크립트를 지운다 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+<style>
+@page { size: 1920px 1080px; margin: 0; }
+html, body { margin: 0; padding: 0; background: #fff; }
+deck-stage { display: block; }
+.slide { width: 1920px; height: 1080px; overflow: hidden; box-sizing: border-box;
+  break-after: page; page-break-after: always; }
+.slide:last-child { break-after: auto; page-break-after: auto; }
+
+/* 수식 - 식은 가운데, 번호는 오른쪽 끝, 기호 설명은 그 아래 */
+.eq { display: flex; flex-direction: column; justify-content: center;
+      background: transparent; border: 1px solid var(--outline);
+      border-radius: 14px; padding: 18px 22px; overflow: hidden; color: var(--ink); }
+.eq-row { position: relative; display: block; }
+.eq-form { display: block; text-align: center; font-size: 30px; padding: 0 68px; }
+.eq-form .katex-display { margin: 0; }
+.eq-no { position: absolute; right: 0; top: 50%; transform: translateY(-50%);
+         font-family: var(--font-code); font-variant-ligatures: none;
+         font-size: 24px; color: var(--ink-subtle); }
+.eq-def { display: block; margin-top: 12px; padding-top: 12px;
+          border-top: 1px solid var(--outline); text-align: left;
+          font-size: 24px; line-height: 1.4; color: var(--ink-muted); }
+.eq-def code { font-family: var(--font-code); font-variant-ligatures: none;
+               font-size: 0.92em; color: var(--sky-deep);
+               background: transparent; padding: 0 2px; }
+.body-text .eq .eq-form, .cols .eq .eq-form { font-size: 26px; }
+.eq.tight .eq-form { font-size: 25px; }
+.body[data-layout] .body-media > .eq { align-self: stretch; }
+.eq.span { grid-column: 1 / -1; }
+</style>
+</head>
+<body>
+<deck-stage>
+
+<!-- 표지. 번호를 매기지 않는다 -->
+<section class="slide cover" data-label="Cover">
+  <span class="course">Lab Seminar</span>
+  <span class="kicker">Part Name In English</span>
+  <h1 class="display">Deck Title</h1>
+  <div class="sun-rule"></div>
+  <p class="presenter">소속 발표자</p>
+</section>
+
+<!-- 목차. data-label 을 "목차" 로 두어야 글자 키우기 규칙이 걸린다 -->
+<section class="slide" data-label="목차">
+  <header class="head"><span class="kicker">Overview</span></header>
+  <h2 class="title">Contents</h2>
+  <div class="rule"></div>
+  <div class="body" data-layout="text" style="--cols: 1;">
+    <div class="body-text">
+      <ul class="ul">
+        <li><strong>Section One</strong> — 한 줄 설명</li>
+        <li><strong>Section Two</strong> — 한 줄 설명</li>
+      </ul>
+    </div>
+  </div>
+  <footer class="foot">
+    <span class="foot-sec">파트 이름</span>
+    <div class="bar"><i style="width:0%"></i></div>
+    <span class="foot-num"></span>
+  </footer>
+</section>
+
+<!-- 파트 구분. 장 이름 하나만 놓는다. 머리말, 푸터, 번호를 두지 않는다 -->
+<section class="slide part" data-label="파트 구분">
+  <h2 class="part-name">Section One</h2>
+</section>
+
+<!-- 본문 1. 글 왼쪽 + 표 오른쪽 -->
+<section class="slide" data-label="첫 슬라이드">
+  <header class="head"><span class="kicker">Section One</span><span class="folio">01</span></header>
+  <h2 class="title">Slide Title In English</h2>
+  <div class="rule"></div>
+  <div class="body" data-layout="right" style="--cols: 1; --split: 50%;">
+    <div class="body-text">
+      <ul class="ul">
+        <li><strong>말머리</strong> — 설명. 대시는 전각이 아니라 —</li>
+        <li><strong>말머리</strong> — 설명</li>
+      </ul>
+      <div class="card soft">
+        <h3>카드 제목</h3>
+        꼭 기억해야 할 한 문장이 있을 때만 쓴다.
+      </div>
+    </div>
+    <div class="body-media" style="--cols: 1;">
+      <table class="tbl" data-fixed style="--trow: 20px;">
+        <colgroup><col style="width: 40%" /><col style="width: 60%" /></colgroup>
+        <thead><tr><th>Header</th><th>Header</th></tr></thead>
+        <tbody>
+          <tr><td>항목</td><td>내용</td></tr>
+          <tr><td>항목</td><td>내용</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <footer class="foot">
+    <span class="foot-sec">파트 이름</span>
+    <div class="bar"><i style="width:33%"></i></div>
+    <span class="foot-num">01 / 03</span>
+  </footer>
+</section>
+
+<!-- 본문 2. 글 위 + 수식 아래. 번호는 오른쪽 끝, 기호 설명은 식 아래 -->
+<section class="slide" data-label="수식 슬라이드">
+  <header class="head"><span class="kicker">Section One</span><span class="folio">02</span></header>
+  <h2 class="title">Equation Slide</h2>
+  <div class="rule"></div>
+  <div class="body" data-layout="bottom" style="--cols: 1; --split: 40%;">
+    <div class="body-text">
+      <ul class="ul">
+        <li><strong>말머리</strong> — 식이 무엇을 말하는지 한 줄</li>
+      </ul>
+    </div>
+    <div class="body-media" style="--cols: 1; --rtpl: auto; --fgap: 18px;">
+      <span class="eq">
+        <span class="eq-row">
+          <span class="eq-form" data-tex="y = a x^2 + b x + c"></span>
+          <span class="eq-no">(1)</span>
+        </span>
+        <span class="eq-def"><code>a, b, c</code> 계수 · <code>x</code> 입력 · <code>y</code> 출력</span>
+      </span>
+    </div>
+  </div>
+  <footer class="foot">
+    <span class="foot-sec">파트 이름</span>
+    <div class="bar"><i style="width:67%"></i></div>
+    <span class="foot-num">02 / 03</span>
+  </footer>
+</section>
+
+<!-- 본문 3. 글 왼쪽 + 그림 오른쪽. 동영상도 같은 자리에 넣는다 -->
+<section class="slide" data-label="그림 슬라이드">
+  <header class="head"><span class="kicker">Section Two</span><span class="folio">03</span></header>
+  <h2 class="title">Figure and Video</h2>
+  <div class="rule"></div>
+  <div class="body" data-layout="right" style="--cols: 1; --split: 44%;">
+    <div class="body-text">
+      <ul class="ul">
+        <li><strong>그림</strong> — figure.fig 안에 img 또는 video 를 넣는다</li>
+        <li><strong>동영상</strong> — 무음 자동 재생이 기본. poster 를 반드시 지정한다. PDF 에는 그 정지 화면이 찍힌다</li>
+      </ul>
+    </div>
+    <div class="body-media" style="--cols: 1;">
+      <figure class="fig"><span class="frame">
+        <img src="imgs/example.png" alt="English label" />
+      </span></figure>
+      <!-- 동영상. 무음 자동 재생이 기본이라 속성을 적지 않는다.
+           끄려면 data-noautoplay, 소리를 열려면 data-sound
+      <figure class="fig"><span class="frame">
+        <video src="imgs/example.mp4" poster="imgs/example_poster.jpg"
+               controls playsinline></video>
+      </span></figure>
+      -->
+    </div>
+  </div>
+  <footer class="foot">
+    <span class="foot-sec">파트 이름</span>
+    <div class="bar"><i style="width:100%"></i></div>
+    <span class="foot-num">03 / 03</span>
+  </footer>
+</section>
+
+</deck-stage>
+
+<script src="present.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script>
+document.querySelectorAll('[data-tex]').forEach(function (el) {
+  var tex = el.getAttribute('data-tex');
+  if (window.katex) {
+    try { window.katex.render(tex, el, { displayMode: true, throwOnError: false }); return; }
+    catch (e) { /* fall through to plain text */ }
+  }
+  el.textContent = tex;
+});
+</script>
+</body>
+</html>
