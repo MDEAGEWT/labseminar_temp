@@ -53,6 +53,9 @@ deck-stage {
   print-color-adjust: exact; -webkit-print-color-adjust: exact;
 }
 
+/* 발표자 노트. 화면과 인쇄 어디에도 찍지 않는다. 발표자 창(N 키)에만 뜬다 */
+.slide aside.notes { display: none; }
+
 /* - head: 키커와 연구실 로고 - */
 .head {
   display: flex; align-items: center; justify-content: space-between;
