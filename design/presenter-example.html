@@ -12,6 +12,15 @@ deck-stage { display: block; }
 .slide { width: 1920px; height: 1080px; overflow: hidden; box-sizing: border-box;
   break-after: page; page-break-after: always; }
 .slide:last-child { break-after: auto; page-break-after: auto; }
+
+/* 애니메이션 예시 (03 장). CSS 애니메이션은 단계(.built)로 켜고, SVG 는 SMIL 로 반복한다 */
+.anim-demo { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+.anim-demo figure { margin: 0; text-align: center; }
+.anim-demo figcaption { font-size: 28px; color: #475569; margin-top: 16px; }
+.pulse { width: 220px; height: 220px; margin: 0 auto; border-radius: 50%; background: #3b82f6; }
+body.presenting .pulse.built { animation: pulse 1.6s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { transform: scale(0.8); } 50% { transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { body.presenting .pulse.built { animation: none; } }
 </style>
 </head>
 <body>
@@ -23,9 +32,10 @@ deck-stage { display: block; }
   <h1 class="display">발표자 모드 예시</h1>
   <div class="sun-rule"></div>
   <p class="presenter">이름 · email@example.com</p>
-<aside class="notes">
-<p style="font-size: 0.7em; color: #38bdf8;">10초</p>
+<aside class="notes" data-target="15">
+<p style="font-size: 0.7em; color: #38bdf8;">15초</p>
 <p>표지에서 할 말. 발표자 창(N 키)에만 보이고 화면과 인쇄에는 안 나옵니다.</p>
+<p style="font-size: 0.7em; line-height: 1.5; color: #94a3b8; margin-top: -0.7em;">번역이나 메모는 이렇게 작은 회색 문단으로 둡니다.</p>
 </aside>
 </section>
 
@@ -43,29 +53,66 @@ deck-stage { display: block; }
       </ul>
     </div>
   </div>
-  <footer class="foot"><span class="foot-sec">Example</span><div class="bar"><i style="width:50%"></i></div><span class="foot-num">01 / 02</span></footer>
-<aside class="notes">
+  <footer class="foot"><span class="foot-sec">Example</span><div class="bar"><i style="width:33%"></i></div><span class="foot-num">01 / 03</span></footer>
+<aside class="notes" data-target="30">
 <p style="font-size: 0.7em; color: #38bdf8;">30초</p>
-<p>첫 줄을 말하고 넘깁니다.</p>
-<p>▶ 클릭 뒤에 할 말. 발표자 창 번호 옆에 단계(· 1/3)가 뜹니다.</p>
+<p>첫 줄을 말하고 넘깁니다. 발표자 창 위쪽에 "이 장 0:05 / 0:30 · 누적 목표 0:45" 가 뜹니다.</p>
+<p>▶ 첫 클릭 뒤에 할 말. 넘길 때마다 발표자 창이 이 문단으로 스크롤하고, 지난 문단은 흐려집니다.</p>
+<p style="font-size: 0.7em; line-height: 1.5; color: #94a3b8; margin-top: -0.7em;">▶ style 이 달린 ▶ 문단(번역)은 바로 앞 단계에 묶입니다.</p>
+<p>▶ 두 번째 클릭 뒤에 할 말.</p>
+<p>▶ 세 번째 클릭: data-only 줄은 이 단계에서만 보입니다.</p>
+</aside>
+</section>
+
+<section class="slide" data-label="Animation">
+  <header class="head"><span class="kicker">Example</span><span class="folio">02</span></header>
+  <h2 class="title">애니메이션 예시</h2>
+  <div class="rule"></div>
+  <div class="body" data-layout="text" style="--cols: 1;">
+    <div class="anim-demo">
+      <figure>
+        <svg width="560" height="300" viewBox="0 0 560 300" aria-hidden="true">
+          <path d="M60 150C60 40 220 40 280 150C340 260 500 260 500 150C500 40 340 40 280 150C220 260 60 260 60 150Z"
+                fill="none" stroke="#cbd5e1" stroke-width="6" stroke-dasharray="14 10"/>
+          <circle r="18" fill="#b45309">
+            <animateMotion dur="6s" repeatCount="indefinite"
+              path="M60 150C60 40 220 40 280 150C340 260 500 260 500 150C500 40 340 40 280 150C220 260 60 260 60 150Z"/>
+          </circle>
+        </svg>
+        <figcaption>SVG(SMIL) — 장에 들어올 때마다 처음부터</figcaption>
+      </figure>
+      <figure>
+        <div class="pulse" data-build="1"></div>
+        <figcaption>CSS — 첫 클릭(data-build="1")에 켜짐</figcaption>
+      </figure>
+    </div>
+  </div>
+  <footer class="foot"><span class="foot-sec">Example</span><div class="bar"><i style="width:66%"></i></div><span class="foot-num">02 / 03</span></footer>
+<aside class="notes" data-target="25">
+<p style="font-size: 0.7em; color: #38bdf8;">25초</p>
+<p>왼쪽 점은 SVG animateMotion 입니다. present.js 가 이 장에 들어올 때 SVG 시계를 0 으로 돌려서 바로 움직입니다.</p>
+<p>▶ 오른쪽 원은 CSS 애니메이션입니다. 발표 모드에서 .built 가 붙을 때만 돌고, 인쇄에는 정지 화면으로 찍힙니다.</p>
 </aside>
 </section>
 
 <section class="slide" data-label="Notes">
-  <header class="head"><span class="kicker">Example</span><span class="folio">02</span></header>
+  <header class="head"><span class="kicker">Example</span><span class="folio">03</span></header>
   <h2 class="title">노트와 질문 대비</h2>
   <div class="rule"></div>
   <div class="body" data-layout="text" style="--cols: 1;">
     <div class="body-text">
       <ul class="ul">
-        <li><strong>노트</strong> — 슬라이드 끝의 &lt;aside class="notes"&gt;</li>
+        <li><strong>노트</strong> — 슬라이드 끝의 &lt;aside class="notes" data-target="초"&gt;</li>
+        <li><strong>읽기 도움</strong> — span.pr[data-pr] 발음, span.rd 숫자 읽기</li>
         <li><strong>질문 대비</strong> — 덱 끝의 &lt;aside class="qa" hidden&gt;, Q 키로 엶</li>
       </ul>
     </div>
   </div>
-  <footer class="foot"><span class="foot-sec">Example</span><div class="bar"><i style="width:100%"></i></div><span class="foot-num">02 / 02</span></footer>
-<aside class="notes">
-<p>Q 키를 누르면 질문 대비 창이 열립니다. 찾기 칸으로 거르고, "지금 장 메모"는 이 장(02)의 메모로 갑니다.</p>
+  <footer class="foot"><span class="foot-sec">Example</span><div class="bar"><i style="width:100%"></i></div><span class="foot-num">03 / 03</span></footer>
+<aside class="notes" data-target="20">
+<p style="font-size: 0.7em; color: #38bdf8;">20초</p>
+<p>The <span class="pr" data-pr="시뮬레이터 · SIM-u-la-tor">simulator</span> error fell to 0.86<span class="rd"> (zero point eight six)</span>. 밑줄 단어에 마우스를 올리면 읽는 법이 뜹니다.</p>
+<p>Q 키로 질문 대비 창을 엽니다. 찾기 칸 밖에서 방향키를 누르면 덱이 넘어가고, / 로 찾기, Esc 로 찾기를 빠져나옵니다. N 은 발표자 창으로 갑니다.</p>
 </aside>
 </section>
 
@@ -75,10 +122,10 @@ deck-stage { display: block; }
 <div class="qa-item"><p class="q">말이 안 나올 때</p><p class="a">Sorry, let me <strong>think for a moment</strong>.</p><p class="m">잠깐 생각해 보겠습니다.</p></div>
 </div>
 <div class="qa-group"><h3>예상 질문</h3>
-<div class="qa-item"><p class="q">예상 질문을 여기에</p><p class="a">답의 <strong>핵심 단어</strong>는 strong 으로 감싸면 노랗게 보입니다.</p></div>
+<div class="qa-item"><p class="q">예상 질문을 여기에</p><p class="m">한국어 질문</p><p class="a">답의 <strong>핵심 단어</strong>는 strong 으로 감싸면 노랗게 보입니다. Numbers can carry a reading: 125<span class="rd"> (one hundred twenty-five)</span>.</p><p class="m">한국어 답</p></div>
 </div>
-<div class="qa-group" data-n="02"><h3>02 · 노트와 질문 대비</h3>
-<div class="qa-item"><p class="m">data-n 이 장 번호(.folio)와 같으면 그 장에서 "지금 장 메모"가 이 묶음으로 갑니다.</p></div>
+<div class="qa-group" data-n="03"><h3>03 · 노트와 질문 대비</h3>
+<div class="qa-item"><p class="m">data-n 이 장 번호(.folio)와 같으면 그 장에서 "지금 장 메모"가 이 묶음으로 가고, 장을 넘기면 표시도 따라갑니다.</p></div>
 </div>
 </aside>
 

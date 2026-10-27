@@ -328,6 +328,9 @@ $ python3 lecture_note/check_svg_fit.py lecture_note/basic/Docker/lecture/imgs/2
 단계 등장은 화면을 덜어 내는 용도로만 쓰고 인쇄본만 봐도 내용이 완결되게 한다.
 `data-only`(그 단계에서만 보임)를 쓸 때는 인쇄용으로 `data-static` 요소를 함께 둔다.
 
+노트에 `data-target="초"`를 적으면 발표자 창에 장별 목표 시간이 뜬다. 단계가 있는 장은 노트 문단을 `▶` 로 시작해 단계마다 나누면
+발표자 창이 넘길 때마다 그 문단으로 따라간다. 애니메이션(CSS, SVG)도 단계로 켜고, 인쇄에는 정지 화면이 찍히게 한다.
+
 ---
 
 ## 9-1. 동영상

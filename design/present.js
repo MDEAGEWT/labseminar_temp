@@ -36,8 +36,9 @@
  *   </section>
  *
  * 질문 대비 - 덱에 aside.qa(슬라이드 밖, hidden)가 있으면 발표자 창에 "질문 대비" 버튼이
- * 생기고, 누르거나 Q 키를 누르면 따로 창이 열린다. 찾기 칸으로 거르고, 그 창에서 누르는 키는
- * 덱을 넘기지 않는다. 안의 묶음은 div.qa-group(h3 + div.qa-item 들), data-n 은 장 번호.
+ * 생기고, 누르거나 Q 키를 누르면 따로 창이 열린다. 찾기 칸으로 거르고(/ 키로 찾기 칸, Esc 로 빠져나옴),
+ * 찾기 칸 밖에서 누른 넘김 키는 덱을 넘긴다. 장이 바뀌면 그 장의 메모 묶음에 표시가 옮겨 간다.
+ * 안의 묶음은 div.qa-group(h3 + div.qa-item 들), data-n 은 장 번호.
  * 묶음에 class="stuck" 이 있으면 질문 대비 창에 "영어가 막힐 때" 버튼이 생기고, 누르면 그 문장들만 크게 덮어 보인다.
  *
  * 단계 등장 - 슬라이드 안 요소에 data-build="1", "2" ... 를 붙이면 발표 중 그 순서로 나타난다.
@@ -54,9 +55,41 @@
  * 글자 크기 - 발표자 창과 질문 대비 창 위쪽의 가−/가+ 버튼, 또는 그 창에서 - / + 키.
  * 창마다 따로 기억한다(이 브라우저의 localStorage). 노트 안 글자는 em 으로 적어 함께 커진다.
  *
+ * 장별 목표 시간 - aside.notes 에 data-target="40"(초)을 적으면 발표자 창 위쪽에
+ * "이 장 0:12 / 0:40 · 누적 목표 3:20" 이 뜨고, 목표를 넘기면 주황색으로 바뀐다. 발표를 시작할 때
+ * [시간 리셋] 버튼(또는 경과 시간 누르기)으로 전체 시간과 이 장 시간을 함께 0 으로 돌린다.
+ *
+ *   <aside class="notes" data-target="40"> ... </aside>
+ *
+ * 단계 대본 - 단계 등장(data-build)이 있는 장은 노트 문단에 data-step="0", "1" ... 을 붙이면
+ * 발표자 창이 지금 단계 문단을 표시하고 그 위치로 스크롤한다(지난 단계는 흐리게). data-step 이 없으면
+ * ▶ 로 시작하는 문단마다 단계를 하나씩 올려 붙인다. style 이 달린 ▶ 문단(번역 등)은 바로 앞 단계에 묶인다.
+ * 장이 바뀌면 대본은 언제나 맨 위부터 보인다.
+ *
+ *   <p>처음 화면에서 할 말</p>
+ *   <p>▶ 첫 클릭 뒤에 할 말</p>
+ *
+ * 읽기 도움 - 노트 안 <span class="pr" data-pr="시뮬레이터 · SIM-u-la-tor">simulator</span> 는 점선
+ * 밑줄이 생기고 마우스를 올리면 읽는 법이 뜬다. <span class="rd"> (zero point eight six)</span> 는 숫자
+ * 뒤에 작게 붙는 읽는 법이다. 질문 대비 창의 답에서도 .rd 를 쓸 수 있다.
+ *
+ * 미리보기 숨기기 - 발표자 창의 [미리보기] 버튼이나 V 키로 장 미리보기 두 개를 숨기고 노트만 크게 본다.
+ *
+ * 창 위치 - N, Q 창은 Window Management API 로 메인 디스플레이에 열려고 한다. 덱에서 처음 클릭하거나
+ * 키를 누를 때 '창 관리' 권한을 묻는다. 거부하거나, 지원하지 않거나, 브라우저가 화면 사이 이동을 막으면
+ * (로컬 파일이나 배율이 다른 화면에서 막히는 경우가 있다) 덱 창과 같은 화면에 연다. 확실한 방법은 덱 창을
+ * 노트북 화면에 둔 채 N, Q 를 먼저 열고, 덱 창을 프로젝터로 옮겨 F 를 누르는 것이다.
+ * 주소 끝에 ?debug-screen 을 붙이면 화면·권한·창 위치 진단이 콘솔에 찍힌다.
+ *
+ * SVG 애니메이션 - 장 안의 SVG(animate, animateMotion ...)는 그 장에 들어올 때마다 처음부터 다시 돈다.
+ * 숨겨져 있던 장의 SMIL 은 첫 반복이 멈춘 채 남아 한동안 가만히 있기 때문이다.
+ *
+ * 자동 넘김 - 장 안의 스크립트가 document 에 presentationadvance 이벤트(detail: {slide, step})를
+ * 보내면, 그 장과 단계가 지금과 같을 때 한 번 넘긴다(애니메이션이 끝나면 다음 장으로 갈 때 쓴다).
+ *
  * 조작 - F 시작, Esc 종료, 방향키/스페이스 이동, Home/End 처음과 끝, B 화면 끄기,
  * N 발표자 창, Q 질문 대비 창. 발표자 창은 F 보다 먼저 연다. 전체 화면 중에 새 창을 열면 브라우저가
- * 전체 화면을 푼다.
+ * 전체 화면을 푼다. 발표자 창과 질문 대비 창에서 누른 넘김 키도 덱을 넘긴다.
  * 슬라이드를 누르면 다음 장으로 넘어가고, 동영상 재생 막대는 눌러도 넘어가지 않는다.
  */
 (function () {
@@ -173,6 +206,20 @@
       el.classList.toggle('built', el.hasAttribute('data-only') ? n === step : n <= step);
     });
     document.dispatchEvent(new CustomEvent('presentationstep', {detail: {slide: slides[at], step: step}}));
+    restartSvg(slides[at]);
+  }
+
+  // SVG(SMIL) 애니메이션은 숨겨진 동안 첫 반복이 멈춘 채로 남아, 장에 들어와도 다음 반복까지 가만히 있다.
+  // 장에 들어올 때마다 그 장의 SVG 시계를 0 으로 돌려 바로 움직이게 한다
+  var svgAt = -1;
+  function restartSvg(slide) {
+    if (at === svgAt) return;
+    svgAt = at;
+    [].forEach.call(slide.querySelectorAll('svg'), function (svg) {
+      if (svg.setCurrentTime && svg.querySelector('animate, animateMotion, animateTransform, set')) {
+        try { svg.setCurrentTime(0); } catch (e) {}
+      }
+    });
   }
 
   // all: 단계를 다 보인 채로 연다 (뒤로 돌아올 때)
@@ -211,6 +258,10 @@
     '.nv-bar { display: flex; justify-content: space-between; font-size: 28px; font-weight: 700; }',
     '.nv-time { font: inherit; color: inherit; background: none; border: 0; padding: 0;',
     '  cursor: pointer; font-variant-numeric: tabular-nums; }',
+    '.nv-reset { font: inherit; font-size: 18px; font-weight: 700; color: #0f172a; background: #fbbf24; border: 0;',
+    '  border-radius: 8px; padding: 2px 10px; margin-left: 8px; cursor: pointer; vertical-align: middle; }',
+    '.nv-lap { font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; color: #38bdf8; }',
+    '.nv-lap.over { color: #fb923c; }',
     '.nv-slides { display: flex; gap: 24px; align-items: flex-start; }',
     '.nv-now, .nv-next { position: relative; overflow: hidden; border-radius: 8px; }',
     '.nv-now { width: 576px; height: 324px; }',
@@ -231,6 +282,19 @@
     '.fs-btn { font: inherit; font-size: 20px; color: #e2e8f0; background: #1e293b; border: 1px solid #334155;',
     '  border-radius: 8px; padding: 2px 12px; cursor: pointer; }',
     '.nv-text p { margin: 0 0 0.8em; }',
+    '.nv-text [data-step] { transition: opacity 0.2s; }',
+    '.nv-text .rd { font-size: 0.6em; color: #94a3b8; font-weight: 400; }',
+    '.nv-text .pr { position: relative; border-bottom: 2px dotted #64748b; cursor: help; }',
+    '.nv-text .pr:hover::after { content: attr(data-pr); position: absolute; left: 0; top: 100%; z-index: 5;',
+    '  white-space: nowrap; font-size: 22px; font-weight: 700; line-height: 1.4; padding: 4px 10px;',
+    '  background: #f8fafc; color: #0f172a; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,.4); }',
+    '.nv-text.stepped [data-step].done { opacity: 0.45; }',
+    '.nv-text.stepped [data-step].cur { border-left: 4px solid #38bdf8; padding-left: 12px; margin-left: -16px; }',
+    '.nv-prev { font: inherit; font-size: 20px; color: #e2e8f0; background: #1e293b; border: 1px solid #334155;',
+    '  border-radius: 8px; padding: 2px 12px; cursor: pointer; }',
+    'body.nv.noprev { grid-template-rows: auto 1fr; }',
+    'body.nv.noprev .nv-slides { display: none; }',
+    'body.nv.noprev .nv-prev { background: #f59e0b; border-color: #f59e0b; color: #0f172a; }',
     '.nv-text.empty::before { content: "노트 없음"; color: #64748b; }',
     '.nv-qa { font: inherit; font-size: 22px; color: #0f172a; background: #38bdf8; border: 0;',
     '  border-radius: 999px; padding: 4px 18px; cursor: pointer; }'
@@ -257,6 +321,7 @@
     '.qa-item p { margin: 0 0 4px; }',
     '.qa-item .q { font-weight: 700; color: #f8fafc; }',
     '.qa-item .a { color: #cbd5e1; }',
+    '.qa-item .rd { font-size: 0.75em; color: #94a3b8; font-weight: 400; }',
     '.qa-item strong { color: #fde047; font-weight: 700; }',
     '.qa-item .m { font-size: 0.88em; color: #94a3b8; }'
   ].join('\n');
@@ -323,12 +388,83 @@
   }
 
   // from: 키나 버튼을 받은 창. 팝업 허용은 사용자가 누른 그 창을 기준으로 하므로 그 창에서 연다
+  // 발표자 창(N)과 질문 대비 창(Q)은 메인 디스플레이에 연다. Window Management API 를 쓰므로
+  // 처음 한 번 '창 관리' 권한을 묻는다. 거부하거나 지원하지 않으면 브라우저가 정한 위치에 연다.
+  var mainScreen = null;
+  // 진단 로그: 주소 끝에 ?debug-screen 을 붙여 열면 덱 창 콘솔(F12)에 [deck-screen] 으로 찍힌다
+  var SCREEN_DEBUG = /[?&]debug-screen(?:[=&]|$)/.test(location.search);
+  function slog() {
+    if (!SCREEN_DEBUG) return;
+    try { console.log.apply(console, ['[deck-screen]'].concat([].slice.call(arguments))); } catch (e) {}
+  }
+  function srect(s) {
+    return s ? (s.label || '?') + ' primary=' + s.isPrimary + ' internal=' + s.isInternal +
+      ' avail=' + s.availLeft + ',' + s.availTop + ' ' + s.availWidth + 'x' + s.availHeight +
+      ' left/top=' + s.left + ',' + s.top : 'null';
+  }
+  function findMain() {
+    if (mainScreen) return Promise.resolve(mainScreen);
+    if (!window.getScreenDetails) { slog('getScreenDetails 없음 (브라우저 미지원 또는 보안 컨텍스트 아님)'); return Promise.resolve(null); }
+    try {
+      if (navigator.permissions) navigator.permissions.query({name: 'window-management'})
+        .then(function (r) { slog('권한 상태 =', r.state); }, function (e) { slog('권한 조회 실패', e && e.message); });
+      return window.getScreenDetails().then(function (d) {
+        slog('화면', d.screens.length + '개, 덱 창 화면 = ' + srect(d.currentScreen));
+        d.screens.forEach(function (s, i) { slog('  #' + i, srect(s)); });
+        mainScreen = d.screens.filter(function (s) { return s.isPrimary; })[0] || null;
+        slog('메인으로 고른 화면 =', srect(mainScreen));
+        return mainScreen;
+      }).catch(function (e) { slog('getScreenDetails 거부/실패:', e && (e.name + ' ' + e.message)); return null; });
+    } catch (e) { slog('getScreenDetails 예외:', e && e.message); return Promise.resolve(null); }  // 동기 예외도 창 열기를 막지 않게
+  }
+  // 메인 화면이 작으면(노트북) 창을 화면 안에 들어가게 줄인다. 다 안 들어가는 창은 브라우저가 화면 이동을 막는다
+  function fitMain(s, width, height) {
+    return {w: Math.min(width, s.availWidth - 40), h: Math.min(height, s.availHeight - 140)};
+  }
+  function onMainAt(s, width, height) {
+    var f = fitMain(s, width, height);
+    return {x: Math.round(s.availLeft + Math.max(0, (s.availWidth - f.w) / 2)),
+            y: Math.round(s.availTop + Math.max(0, (s.availHeight - f.h - 100) / 2)), w: f.w, h: f.h};
+  }
+  function winFeatures(width, height) {
+    var f = 'width=' + width + ',height=' + height;
+    if (mainScreen) { var p = onMainAt(mainScreen, width, height); f = 'width=' + p.w + ',height=' + p.h + ',left=' + p.x + ',top=' + p.y; }
+    slog('window.open features =', f, '| 덱 창 screenX/Y =', window.screenX + ',' + window.screenY);
+    return f;
+  }
+  // 권한 질문은 사용자 입력(클릭·키) 안에서만 뜬다. window.open 이 그 입력을 써 버리므로
+  // 덱에서 처음 클릭하거나 키를 누를 때 미리 묻는다 (아직 정해지지 않았을 때만)
+  function askEarly() {
+    document.removeEventListener('pointerdown', askEarly, true);
+    document.removeEventListener('keydown', askEarly, true);
+    findMain();
+  }
+  document.addEventListener('pointerdown', askEarly, true);
+  document.addEventListener('keydown', askEarly, true);
+  function moveToMain(w, width, height) {
+    if (w) setTimeout(function () { try { slog('열린 직후 창 위치 =', w.screenX + ',' + w.screenY); } catch (e) {} }, 0);
+    findMain().then(function (s) {
+      if (!s || !w || w.closed) { slog('moveTo 생략 (메인 화면 정보 없음)'); return; }
+      var p = onMainAt(s, width, height);
+      try { w.resizeTo(p.w, p.h + 80); w.moveTo(p.x, p.y); slog('resizeTo/moveTo 요청 =', p.w + 'x' + (p.h + 80) + ' @ ' + p.x + ',' + p.y); }
+      catch (e) { slog('moveTo 예외:', e && e.message); }
+      setTimeout(function () {
+        try {
+          slog('moveTo 뒤 창 위치 =', w.screenX + ',' + w.screenY, '크기 =', w.outerWidth + 'x' + w.outerHeight);
+          if (Math.abs(w.screenX - p.x) > 50) { w.moveTo(p.x, p.y); slog('다시 moveTo'); }
+        } catch (e) {}
+      }, 500);
+    });
+  }
+
   function openQA(from) {
     var src = document.querySelector('aside.qa');
     if (!src) return;
     if (qaWin && !qaWin.closed) { qaWin.focus(); markNow(); return; }
-    var w = (from && !from.closed ? from : window).open('', 'deck-qa', 'width=1100,height=900');
+    findMain();                                       // 창을 열기 전에 (입력 활성 상태에서) 권한 요청
+    var w = (from && !from.closed ? from : window).open('', 'deck-qa', winFeatures(1100, 900));
     if (!w) return;                                   // 팝업 차단
+    moveToMain(w, 1100, 900);
     w.document.open();
     w.document.write('<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8">' +
       '<title>질문 대비</title><style>' + QA_CSS + '\n' + STUCK_CSS + '</style></head><body class="qa-win">' +
@@ -356,6 +492,17 @@
       var g = markNow();
       if (g) g.scrollIntoView();
     };
+    // 질문 대비 창에서도 덱을 넘기고(방향키, 스페이스, Home/End) N 으로 발표자 창으로 간다.
+    // 찾기 칸에 글을 쓰는 동안에는 넘기지 않고, Esc 로 찾기 칸을 빠져나온다
+    d.addEventListener('keydown', function (ev) {
+      var t = ev.target, typing = t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable);
+      if (typing) { if (ev.key === 'Escape') { ev.preventDefault(); t.blur(); } return; }
+      if (ev.key === 'Escape') return;                  // 질문 대비 창의 Esc 는 발표를 끝내지 않는다
+      if (ev.key === 'q' || ev.key === 'Q') return;
+      if (ev.key === '/') { ev.preventDefault(); find.focus(); return; }
+      onKey(ev);
+      if (ev.key === 'n' || ev.key === 'N' || NEXT[ev.key] || PREV[ev.key] || ev.key === 'Home' || ev.key === 'End') markNow();
+    });
     qaWin = w;
     markNow();
     find.focus();
@@ -376,8 +523,10 @@
   function pad(n) { return (n < 10 ? '0' : '') + n; }
 
   function openNotes() {
-    var w = window.open('', 'deck-notes', 'width=1280,height=800');
+    findMain();
+    var w = window.open('', 'deck-notes', winFeatures(1280, 800));
     if (!w) return;                                   // 팝업 차단
+    moveToMain(w, 1280, 800);
     var head = [].map.call(document.querySelectorAll('link[rel="stylesheet"], style'), function (el) {
       return el.tagName === 'LINK' ? '<link rel="stylesheet" href="' + el.href + '">' : el.outerHTML;
     }).join('');
@@ -385,22 +534,36 @@
     w.document.write('<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8">' +
       '<title>발표자 노트</title>' + head + '<style>' + NOTES_CSS + '</style></head>' +
       '<body class="nv"><div class="nv-bar">' +
-      '<button class="nv-time" type="button" title="눌러서 0 으로">00:00</button>' +
+      '<span><button class="nv-time" type="button" title="눌러서 0 으로">00:00</button>' +
+      '<button class="nv-reset" type="button" title="발표 시작할 때 누르기: 전체 시간과 이 장 시간을 0 으로">시간 리셋</button>' +
+      ' <span class="nv-lap" title="이 장 경과 / 이 장 목표 · 누적 목표"></span></span>' +
       (document.querySelector('aside.qa') ? '<button class="nv-qa" type="button" title="Q 키">질문 대비</button>' : '') +
       '<span class="nv-nav"><button class="nv-peek" type="button" data-d="-1" title="[ 키">◀</button>' +
       '<button class="nv-live" type="button" title="C 키">발표 화면</button>' +
       '<button class="nv-peek" type="button" data-d="1" title="] 키">▶</button></span>' +
-      '<span class="nv-right">' + FS_BTNS + '<span class="nv-num"></span></span></div>' +
+      '<span class="nv-right"><button class="nv-prev" type="button" title="V 키">미리보기</button>' + FS_BTNS + '<span class="nv-num"></span></span></div>' +
       '<div class="nv-slides"><div class="nv-now"></div><div class="nv-next"></div></div>' +
       '<div class="nv-text"></div></body></html>');
     w.document.close();
 
     var t0 = Date.now(), time = w.document.querySelector('.nv-time');
-    time.onclick = function () { t0 = Date.now(); time.textContent = '00:00'; time.blur(); };
+    function resetTime() { t0 = Date.now(); lapAt = at; lapT0 = Date.now(); time.textContent = '00:00'; drawLap(); }
+    time.onclick = function () { resetTime(); time.blur(); };
+    var rb = w.document.querySelector('.nv-reset');
+    rb.onclick = function () { resetTime(); rb.blur(); };
     sizer(w, 'deck-notes-fs');
     [].forEach.call(w.document.querySelectorAll('.nv-peek'), function (btn) {
       btn.onclick = function () { peekBy(Number(btn.getAttribute('data-d'))); btn.blur(); };
     });
+    // 슬라이드 미리보기 숨기기(V 키): 노트를 크게 보려고. 다음에 열 때도 유지한다
+    function togglePrev(on) {
+      var hide = typeof on === 'boolean' ? on : !w.document.body.classList.contains('noprev');
+      w.document.body.classList.toggle('noprev', hide);
+      try { localStorage.setItem('deck-notes-noprev', hide ? '1' : ''); } catch (e) {}
+    }
+    try { togglePrev(localStorage.getItem('deck-notes-noprev') === '1'); } catch (e) {}
+    var pv = w.document.querySelector('.nv-prev');
+    pv.onclick = function () { togglePrev(); pv.blur(); };
     var live = w.document.querySelector('.nv-live');
     live.onclick = function () { goLive(); live.blur(); };
     w.document.addEventListener('keydown', function (ev) {
@@ -408,6 +571,7 @@
       if (ev.key === '[') { ev.preventDefault(); peekBy(-1); }
       else if (ev.key === ']') { ev.preventDefault(); peekBy(1); }
       else if (ev.key === 'c' || ev.key === 'C') { ev.preventDefault(); goLive(); }
+      else if (ev.key === 'v' || ev.key === 'V') { ev.preventDefault(); togglePrev(); }
     });
     var qb = w.document.querySelector('.nv-qa');
     if (qb) qb.onclick = function () { qb.blur(); openQA(w); };
@@ -415,6 +579,7 @@
     w.nvTick = w.setInterval(function () {
       var s = Math.floor((Date.now() - t0) / 1000);
       time.textContent = pad(Math.floor(s / 60)) + ':' + pad(s % 60);
+      drawLap();
     }, 1000);
     w.document.addEventListener('keydown', onKey);
     // 미리보기 두 장(576 + 24 + 384)이 창 폭을 넘으면 함께 줄인다
@@ -450,9 +615,31 @@
 
   function goLive() { peek = null; drawNotes(); }
 
+  // 장별 시간: 발표 중인 장에 머문 시간과 aside.notes[data-target] 목표(초), 그 장까지 누적 목표
+  var lapAt = -1, lapT0 = Date.now();
+  function mmss(s) { return Math.floor(s / 60) + ':' + pad(s % 60); }
+  function target(i) {
+    var n = slides[i] && slides[i].querySelector('aside.notes');
+    return n ? parseInt(n.getAttribute('data-target'), 10) || 0 : 0;
+  }
+  function drawLap() {
+    var w = notesWin;
+    if (!w || w.closed || !slides.length) return;
+    if (at !== lapAt) { lapAt = at; lapT0 = Date.now(); }
+    var el = w.document.querySelector('.nv-lap');
+    if (!el) return;
+    var goal = target(at), sum = 0;
+    for (var i = 0; i <= at; i++) sum += target(i);
+    if (!goal) { el.textContent = ''; return; }
+    var s = Math.floor((Date.now() - lapT0) / 1000);
+    el.textContent = '이 장 ' + mmss(s) + ' / ' + mmss(goal) + ' · 누적 목표 ' + mmss(sum);
+    el.classList.toggle('over', s > goal);
+  }
+
   function drawNotes() {
     var w = notesWin;
     if (!w || w.closed || !slides.length) return;
+    drawLap();
     var i = peek === null ? at : peek;
     var d = w.document, note = slides[i].querySelector('aside.notes');
     var n = steps(slides[at]);
@@ -465,6 +652,35 @@
     var text = d.querySelector('.nv-text');
     text.innerHTML = note ? note.innerHTML : '';
     text.classList.toggle('empty', !text.textContent.trim());
+    // 단계(▶)가 있는 노트: 지금 단계 문단을 표시하고 그 위치로 스크롤한다.
+    // 장이 바뀐 직후에는 (뒤로 돌아와 마지막 단계여도) 대본 맨 위부터 보여 준다
+    tagSteps(text);
+    var parts = text.querySelectorAll('[data-step]'), cur = null;
+    var newSlide = at !== notesAt;
+    notesAt = at;
+    text.classList.toggle('stepped', peek === null && parts.length > 0);
+    if (peek !== null || !parts.length || newSlide) text.scrollTop = 0;
+    if (peek !== null || !parts.length) return;
+    [].forEach.call(parts, function (p) {
+      var k = parseInt(p.getAttribute('data-step'), 10);
+      p.classList.toggle('cur', k === step);
+      p.classList.toggle('done', k < step);
+      if (k === step && !cur) cur = p;
+    });
+    if (!newSlide) text.scrollTop = cur && step > 0 ? Math.max(0, cur.offsetTop - text.offsetTop - 12) : 0;
+  }
+  var notesAt = -1;
+
+  // data-step 이 없는 노트는 ▶ 로 시작하는 문단마다 단계를 하나씩 올려 붙인다(그 앞은 0 단계)
+  function tagSteps(box) {
+    if (box.querySelector('[data-step]')) return;
+    var ps = box.querySelectorAll('p'), k = 0, any = false, ARROW = /^\s*▶/;
+    [].forEach.call(ps, function (p) { if (ARROW.test(p.textContent)) any = true; });
+    if (!any) return;
+    [].forEach.call(ps, function (p) {
+      if (ARROW.test(p.textContent) && !p.hasAttribute('style')) k++;
+      p.setAttribute('data-step', k);
+    });
   }
 
   function nearestSlide() {
@@ -548,6 +764,10 @@
       if (!document.body.classList.contains('presenting') || ev.detail.slide !== slides[at]) return;
       setStep(Math.max(0, Math.min(steps(slides[at]), ev.detail.step)));
       peek = null; drawNotes();
+    });
+    document.addEventListener('presentationadvance', function (ev) {
+      if (!ev.detail || !document.body.classList.contains('presenting') || ev.detail.slide !== slides[at] || ev.detail.step !== step) return;
+      next();
     });
 
     // 슬라이드를 누르면 다음 장. 눌러서 쓰는 것들은 그대로 둔다.
