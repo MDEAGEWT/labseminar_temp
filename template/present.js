@@ -70,7 +70,7 @@
  *   <p>▶ 첫 클릭 뒤에 할 말</p>
  *
  * 읽기 도움 - 노트 안 <span class="pr" data-pr="시뮬레이터 · SIM-u-la-tor">simulator</span> 는 점선
- * 밑줄이 생기고 마우스를 올리면 읽는 법이 뜬다. <span class="rd"> (zero point eight six)</span> 는 숫자
+ * 밑줄이 생기고 마우스를 올리면 읽는 법이 뜬다(창 끝에서는 안쪽으로 당겨져 잘리지 않는다). <span class="rd"> (zero point eight six)</span> 는 숫자
  * 뒤에 작게 붙는 읽는 법이다. 질문 대비 창의 답에서도 .rd 를 쓸 수 있다.
  *
  * 미리보기 숨기기 - 발표자 창의 [미리보기] 버튼이나 V 키로 장 미리보기 두 개를 숨기고 노트만 크게 본다.
@@ -284,9 +284,9 @@
     '.nv-text p { margin: 0 0 0.8em; }',
     '.nv-text [data-step] { transition: opacity 0.2s; }',
     '.nv-text .rd { font-size: 0.6em; color: #94a3b8; font-weight: 400; }',
-    '.nv-text .pr { position: relative; border-bottom: 2px dotted #64748b; cursor: help; }',
-    '.nv-text .pr:hover::after { content: attr(data-pr); position: absolute; left: 0; top: 100%; z-index: 5;',
-    '  white-space: nowrap; font-size: 22px; font-weight: 700; line-height: 1.4; padding: 4px 10px;',
+    '.nv-text .pr { border-bottom: 2px dotted #64748b; cursor: help; }',
+    '.nv-tip { position: fixed; z-index: 30; pointer-events: none; max-width: calc(100vw - 16px);',
+    '  font-size: 22px; font-weight: 700; line-height: 1.4; padding: 4px 10px;',
     '  background: #f8fafc; color: #0f172a; border-radius: 6px; box-shadow: 0 4px 12px rgba(0,0,0,.4); }',
     '.nv-text.stepped [data-step].done { opacity: 0.45; }',
     '.nv-text.stepped [data-step].cur { border-left: 4px solid #38bdf8; padding-left: 12px; margin-left: -16px; }',
@@ -564,6 +564,7 @@
     try { togglePrev(localStorage.getItem('deck-notes-noprev') === '1'); } catch (e) {}
     var pv = w.document.querySelector('.nv-prev');
     pv.onclick = function () { togglePrev(); pv.blur(); };
+    readingTips(w);
     var live = w.document.querySelector('.nv-live');
     live.onclick = function () { goLive(); live.blur(); };
     w.document.addEventListener('keydown', function (ev) {
@@ -591,6 +592,34 @@
     notesWin = w;
     if (!document.body.classList.contains('presenting')) at = nearestSlide();
     drawNotes();
+  }
+
+  // 읽기 도움 말풍선: .pr[data-pr] 에 마우스를 올리면 단어 아래에 띄운다. 창 오른쪽·아래를 넘으면
+  // 안쪽으로 당기거나 단어 위로 올려서, 대본 영역에 잘리지 않고 창 안에 다 보이게 한다
+  function readingTips(w) {
+    var d = w.document, tip = d.createElement('div');
+    tip.className = 'nv-tip';
+    tip.hidden = true;
+    d.body.appendChild(tip);
+    var on = null;
+    function hide() { tip.hidden = true; on = null; }
+    // mousemove 로 본다: 스크롤로 숨겼다가 같은 단어 위에서 마우스를 움직이면 다시 뜬다
+    d.addEventListener('mousemove', function (ev) {
+      var t = ev.target && ev.target.closest && ev.target.closest('.pr[data-pr]');
+      if (!t) { if (on) hide(); return; }
+      if (t === on) return;
+      on = t;
+      tip.textContent = t.getAttribute('data-pr');
+      tip.hidden = false;
+      var r = t.getBoundingClientRect(), tw = tip.offsetWidth, th = tip.offsetHeight, m = 8;
+      var x = Math.max(m, Math.min(r.left, w.innerWidth - tw - m));
+      var y = r.bottom + 4;
+      if (y + th > w.innerHeight - m) y = Math.max(m, r.top - th - 4);
+      tip.style.left = x + 'px';
+      tip.style.top = y + 'px';
+    });
+    d.addEventListener('scroll', hide, true);
+    d.addEventListener('mouseleave', hide);
   }
 
   function thumb(box, slide) {
